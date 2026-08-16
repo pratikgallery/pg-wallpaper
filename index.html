@@ -80,10 +80,6 @@
       font: inherit;
     }
 
-    button {
-      -webkit-tap-highlight-color: transparent;
-    }
-
     .container {
       width: min(1180px, calc(100% - 32px));
       margin: auto;
@@ -150,24 +146,14 @@
       color: #fff;
     }
 
-    /* =========================
-       ACCOUNT BUTTON
-    ========================= */
-
-    .account-wrapper {
-      position: relative;
-    }
+    /* LOGIN / ACCOUNT BUTTON */
 
     .login-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      max-width: 190px;
       border: 1px solid rgba(255,255,255,.13);
       background: rgba(255,255,255,.06);
       color: white;
-      padding: 10px 14px;
-      border-radius: 13px;
+      padding: 10px 16px;
+      border-radius: 12px;
       cursor: pointer;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -189,191 +175,6 @@
           rgba(255,23,68,.15),
           rgba(255,255,255,.05)
         );
-    }
-
-    .account-avatar {
-      width: 28px;
-      height: 28px;
-      flex: 0 0 28px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background:
-        linear-gradient(145deg, #ff1744, #78001f);
-      color: white;
-      font-size: 11px;
-      font-weight: 900;
-      box-shadow: 0 0 18px rgba(255,23,68,.18);
-    }
-
-    .account-name {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .account-chevron {
-      font-size: 11px;
-      color: #aaa;
-      transition: transform .2s ease;
-    }
-
-    .login-btn.menu-open .account-chevron {
-      transform: rotate(180deg);
-    }
-
-    /* =========================
-       ACCOUNT DROPDOWN
-    ========================= */
-
-    .account-menu {
-      position: absolute;
-      top: calc(100% + 12px);
-      right: 0;
-      width: 290px;
-      padding: 10px;
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 20px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(28,28,28,.94),
-          rgba(8,8,8,.96)
-        );
-      box-shadow:
-        0 25px 70px rgba(0,0,0,.55),
-        0 0 35px rgba(255,23,68,.08),
-        inset 0 1px 0 rgba(255,255,255,.06);
-      backdrop-filter: blur(28px);
-      -webkit-backdrop-filter: blur(28px);
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-8px) scale(.97);
-      transform-origin: top right;
-      transition:
-        opacity .18s ease,
-        transform .18s ease,
-        visibility .18s ease;
-      z-index: 500;
-    }
-
-    .account-menu.open {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
-    }
-
-    .account-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px;
-      border-radius: 15px;
-      background: rgba(255,255,255,.045);
-      border: 1px solid rgba(255,255,255,.06);
-    }
-
-    .account-large-avatar {
-      width: 44px;
-      height: 44px;
-      flex: 0 0 44px;
-      display: grid;
-      place-items: center;
-      border-radius: 14px;
-      background:
-        linear-gradient(145deg, #ff1744, #70001d);
-      font-size: 15px;
-      font-weight: 950;
-      box-shadow: 0 0 25px rgba(255,23,68,.18);
-    }
-
-    .account-info {
-      min-width: 0;
-    }
-
-    .account-display-name {
-      color: #fff;
-      font-size: 14px;
-      font-weight: 800;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .account-email {
-      margin-top: 4px;
-      color: #888;
-      font-size: 11px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .account-divider {
-      height: 1px;
-      margin: 9px 4px;
-      background: rgba(255,255,255,.07);
-    }
-
-    .account-item {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px;
-      border: 0;
-      border-radius: 13px;
-      background: transparent;
-      color: #ddd;
-      text-align: left;
-      cursor: pointer;
-      transition: .18s ease;
-    }
-
-    .account-item:hover {
-      background: rgba(255,255,255,.06);
-      color: white;
-    }
-
-    .account-item-icon {
-      width: 32px;
-      height: 32px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: rgba(255,255,255,.06);
-      color: #bbb;
-      font-size: 14px;
-    }
-
-    .account-item-text {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .account-item-title {
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .account-item-description {
-      color: #777;
-      font-size: 10px;
-    }
-
-    .logout-item {
-      color: #ff6b88;
-    }
-
-    .logout-item:hover {
-      background: rgba(255,23,68,.08);
-      color: #ff7b96;
-    }
-
-    .logout-item .account-item-icon {
-      color: #ff6b88;
-      background: rgba(255,23,68,.08);
     }
 
     /* =========================
@@ -788,30 +589,10 @@
       }
 
       .login-btn {
-        padding: 7px 9px 7px 7px;
-        max-width: 145px;
-      }
-
-      .account-menu {
-        position: fixed;
-        top: 67px;
-        right: 11px;
-        width: min(290px, calc(100vw - 22px));
-      }
-    }
-
-    @media (max-width: 390px) {
-
-      .brand span:last-child {
-        display: none;
-      }
-
-      .login-btn {
-        max-width: 140px;
-      }
-
-      .account-menu {
-        top: 64px;
+        padding: 9px 12px;
+        max-width: 130px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   </style>
@@ -855,136 +636,13 @@
 
       </nav>
 
-      <!-- ACCOUNT -->
-
-      <div class="account-wrapper">
-
-        <button
-          class="login-btn"
-          id="loginBtn"
-          type="button"
-          aria-expanded="false"
-          aria-haspopup="true"
-        >
-          <span
-            class="account-avatar"
-            id="accountAvatar"
-            hidden
-          >
-            A
-          </span>
-
-          <span
-            class="account-name"
-            id="accountButtonText"
-          >
-            Login
-          </span>
-
-          <span
-            class="account-chevron"
-            id="accountChevron"
-            hidden
-          >
-            ▼
-          </span>
-
-        </button>
-
-
-        <!-- ACCOUNT MENU -->
-
-        <div
-          class="account-menu"
-          id="accountMenu"
-          aria-hidden="true"
-        >
-
-          <div class="account-header">
-
-            <div
-              class="account-large-avatar"
-              id="accountLargeAvatar"
-            >
-              A
-            </div>
-
-            <div class="account-info">
-
-              <div
-                class="account-display-name"
-                id="accountDisplayName"
-              >
-                Account
-              </div>
-
-              <div
-                class="account-email"
-                id="accountEmail"
-              >
-                —
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="account-divider"></div>
-
-
-          <button
-            class="account-item"
-            id="myAccountBtn"
-            type="button"
-          >
-
-            <span class="account-item-icon">
-              👤
-            </span>
-
-            <span class="account-item-text">
-
-              <span class="account-item-title">
-                My Account
-              </span>
-
-              <span class="account-item-description">
-                Manage your profile
-              </span>
-
-            </span>
-
-          </button>
-
-
-          <button
-            class="account-item logout-item"
-            id="logoutBtn"
-            type="button"
-          >
-
-            <span class="account-item-icon">
-              ↪
-            </span>
-
-            <span class="account-item-text">
-
-              <span class="account-item-title">
-                Logout
-              </span>
-
-              <span class="account-item-description">
-                Sign out of PG Wallpaper
-              </span>
-
-            </span>
-
-          </button>
-
-        </div>
-
-      </div>
+      <button
+        class="login-btn"
+        id="loginBtn"
+        type="button"
+      >
+        Login
+      </button>
 
     </div>
 
@@ -1130,6 +788,8 @@
 
         <div class="wallpaper-grid">
 
+          <!-- WALLPAPER 1 -->
+
           <article class="wallpaper-card">
 
             <div class="wallpaper-image"></div>
@@ -1156,6 +816,8 @@
 
           </article>
 
+
+          <!-- WALLPAPER 2 -->
 
           <article class="wallpaper-card">
 
@@ -1184,6 +846,8 @@
           </article>
 
 
+          <!-- WALLPAPER 3 -->
+
           <article class="wallpaper-card">
 
             <div class="wallpaper-image"></div>
@@ -1210,6 +874,8 @@
 
           </article>
 
+
+          <!-- WALLPAPER 4 -->
 
           <article class="wallpaper-card">
 
@@ -1298,39 +964,12 @@
     const loginBtn =
       document.getElementById("loginBtn");
 
-    const accountButtonText =
-      document.getElementById("accountButtonText");
-
-    const accountAvatar =
-      document.getElementById("accountAvatar");
-
-    const accountChevron =
-      document.getElementById("accountChevron");
-
-    const accountMenu =
-      document.getElementById("accountMenu");
-
-    const accountLargeAvatar =
-      document.getElementById("accountLargeAvatar");
-
-    const accountDisplayName =
-      document.getElementById("accountDisplayName");
-
-    const accountEmail =
-      document.getElementById("accountEmail");
-
-    const logoutBtn =
-      document.getElementById("logoutBtn");
-
-    const myAccountBtn =
-      document.getElementById("myAccountBtn");
-
     const authStatus =
       document.getElementById("authStatus");
 
 
     /* =========================
-       STATUS
+       STATUS MESSAGE
     ========================= */
 
     let statusTimer = null;
@@ -1347,208 +986,13 @@
       authStatus.className =
         `auth-status show ${type}`;
 
-      statusTimer =
-        setTimeout(() => {
+      statusTimer = setTimeout(() => {
 
-          authStatus.classList.remove(
-            "show"
-          );
+        authStatus.classList.remove("show");
 
-        }, 2500);
+      }, 2500);
+
     }
-
-
-    /* =========================
-       ACCOUNT MENU
-    ========================= */
-
-    function openAccountMenu() {
-
-      accountMenu.classList.add("open");
-
-      loginBtn.classList.add("menu-open");
-
-      loginBtn.setAttribute(
-        "aria-expanded",
-        "true"
-      );
-
-      accountMenu.setAttribute(
-        "aria-hidden",
-        "false"
-      );
-    }
-
-
-    function closeAccountMenu() {
-
-      accountMenu.classList.remove("open");
-
-      loginBtn.classList.remove(
-        "menu-open"
-      );
-
-      loginBtn.setAttribute(
-        "aria-expanded",
-        "false"
-      );
-
-      accountMenu.setAttribute(
-        "aria-hidden",
-        "true"
-      );
-    }
-
-
-    function toggleAccountMenu() {
-
-      if (
-        accountMenu.classList.contains("open")
-      ) {
-        closeAccountMenu();
-
-      } else {
-
-        openAccountMenu();
-
-      }
-    }
-
-
-    /* =========================
-       INITIAL LOGIN BUTTON
-       ========================= */
-
-    loginBtn.addEventListener(
-      "click",
-      event => {
-
-        event.stopPropagation();
-
-        if (
-          loginBtn.classList.contains(
-            "logged-in"
-          )
-        ) {
-
-          toggleAccountMenu();
-
-        } else {
-
-          window.location.href =
-            "login.html";
-
-        }
-
-      }
-    );
-
-
-    /* =========================
-       OUTSIDE CLICK
-    ========================= */
-
-    document.addEventListener(
-      "click",
-      event => {
-
-        if (
-          !event.target.closest(
-            ".account-wrapper"
-          )
-        ) {
-
-          closeAccountMenu();
-
-        }
-
-      }
-    );
-
-
-    /* =========================
-       ESCAPE
-    ========================= */
-
-    document.addEventListener(
-      "keydown",
-      event => {
-
-        if (event.key === "Escape") {
-
-          closeAccountMenu();
-
-        }
-
-      }
-    );
-
-
-    /* =========================
-       MY ACCOUNT
-    ========================= */
-
-    myAccountBtn.addEventListener(
-      "click",
-      () => {
-
-        closeAccountMenu();
-
-        showStatus(
-          "Account page coming next.",
-          "success"
-        );
-
-      }
-    );
-
-
-    /* =========================
-       LOGOUT
-    ========================= */
-
-    logoutBtn.addEventListener(
-      "click",
-      async () => {
-
-        logoutBtn.disabled = true;
-
-        logoutBtn.querySelector(
-          ".account-item-title"
-        ).textContent = "Logging out...";
-
-
-        const result =
-          await logoutUser();
-
-
-        if (result.success) {
-
-          closeAccountMenu();
-
-          showStatus(
-            "Logged out successfully.",
-            "success"
-          );
-
-        } else {
-
-          logoutBtn.disabled = false;
-
-          logoutBtn.querySelector(
-            ".account-item-title"
-          ).textContent = "Logout";
-
-          showStatus(
-            result.message ||
-            "Logout failed.",
-            "error"
-          );
-
-        }
-
-      }
-    );
 
 
     /* =========================
@@ -1568,17 +1012,13 @@
 
           const title =
             card
-              .querySelector(
-                ".wallpaper-title"
-              )
+              .querySelector(".wallpaper-title")
               ?.textContent
               .toLowerCase() || "";
 
           const meta =
             card
-              .querySelector(
-                ".wallpaper-meta"
-              )
+              .querySelector(".wallpaper-meta")
               ?.textContent
               .toLowerCase() || "";
 
@@ -1620,31 +1060,13 @@
 
 
     /* =========================
-       AVATAR LETTER
-    ========================= */
-
-    function getInitial(name) {
-
-      const cleanName =
-        String(name || "A")
-          .trim();
-
-      return (
-        cleanName
-          .charAt(0)
-          .toUpperCase() || "A"
-      );
-    }
-
-
-    /* =========================
        FIREBASE AUTH STATE
     ========================= */
 
     watchAuthState(user => {
 
       /* =====================
-         LOGGED IN
+         USER LOGGED IN
       ===================== */
 
       if (user) {
@@ -1660,21 +1082,9 @@
           email.split("@")[0] ||
           "Account";
 
-        const initial =
-          getInitial(accountName);
 
-
-        /* BUTTON */
-
-        accountButtonText.textContent =
+        loginBtn.textContent =
           accountName;
-
-        accountAvatar.textContent =
-          initial;
-
-        accountAvatar.hidden = false;
-
-        accountChevron.hidden = false;
 
         loginBtn.classList.add(
           "logged-in"
@@ -1684,25 +1094,52 @@
           email;
 
 
-        /* MENU */
+        loginBtn.onclick =
+          async () => {
 
-        accountLargeAvatar.textContent =
-          initial;
+            const shouldLogout =
+              confirm(
+                `Logged in as:\n${accountName}\n${email}\n\nLogout?`
+              );
 
-        accountDisplayName.textContent =
-          accountName;
-
-        accountEmail.textContent =
-          email || "No email";
+            if (!shouldLogout) {
+              return;
+            }
 
 
-        /* LOGOUT BUTTON RESET */
+            loginBtn.disabled = true;
 
-        logoutBtn.disabled = false;
+            loginBtn.textContent =
+              "Logging out...";
 
-        logoutBtn.querySelector(
-          ".account-item-title"
-        ).textContent = "Logout";
+
+            const result =
+              await logoutUser();
+
+
+            if (result.success) {
+
+              showStatus(
+                "Logged out successfully.",
+                "success"
+              );
+
+            } else {
+
+              loginBtn.disabled = false;
+
+              loginBtn.textContent =
+                accountName;
+
+              showStatus(
+                result.message ||
+                "Logout failed.",
+                "error"
+              );
+
+            }
+
+          };
 
 
         console.log(
@@ -1715,14 +1152,15 @@
 
 
       /* =====================
-         LOGGED OUT
+         USER LOGGED OUT
       ===================== */
 
       else {
 
-        closeAccountMenu();
-
         loginBtn.disabled = false;
+
+        loginBtn.textContent =
+          "Login";
 
         loginBtn.classList.remove(
           "logged-in"
@@ -1731,17 +1169,14 @@
         loginBtn.title =
           "Login to PG Wallpaper";
 
-        accountButtonText.textContent =
-          "Login";
 
-        accountAvatar.hidden = true;
+        loginBtn.onclick =
+          () => {
 
-        accountChevron.hidden = true;
+            window.location.href =
+              "login.html";
 
-        accountMenu.setAttribute(
-          "aria-hidden",
-          "true"
-        );
+          };
 
 
         console.log(
