@@ -33,11 +33,25 @@
     body {
       min-height: 100vh;
       background:
-        radial-gradient(circle at 10% 0%, rgba(255, 23, 68, 0.16), transparent 32%),
-        radial-gradient(circle at 90% 20%, rgba(157, 0, 38, 0.12), transparent 28%),
+        radial-gradient(
+          circle at 10% 0%,
+          rgba(255, 23, 68, 0.16),
+          transparent 32%
+        ),
+        radial-gradient(
+          circle at 90% 20%,
+          rgba(157, 0, 38, 0.12),
+          transparent 28%
+        ),
         var(--bg);
       color: var(--text);
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
       overflow-x: hidden;
     }
 
@@ -71,7 +85,9 @@
       margin: auto;
     }
 
-    /* NAVBAR */
+    /* =========================
+       NAVBAR
+    ========================= */
 
     .navbar {
       position: sticky;
@@ -107,7 +123,11 @@
       display: grid;
       place-items: center;
       background:
-        linear-gradient(145deg, rgba(255,23,68,.95), rgba(110,0,28,.95));
+        linear-gradient(
+          145deg,
+          rgba(255,23,68,.95),
+          rgba(110,0,28,.95)
+        );
       box-shadow:
         0 0 25px rgba(255,23,68,.28),
         inset 0 1px 0 rgba(255,255,255,.22);
@@ -126,6 +146,8 @@
       color: #fff;
     }
 
+    /* LOGIN / ACCOUNT BUTTON */
+
     .login-btn {
       border: 1px solid rgba(255,255,255,.13);
       background: rgba(255,255,255,.06);
@@ -134,14 +156,30 @@
       border-radius: 12px;
       cursor: pointer;
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: .2s ease;
+      white-space: nowrap;
     }
 
     .login-btn:hover {
       border-color: rgba(255,23,68,.5);
       box-shadow: 0 0 20px rgba(255,23,68,.12);
+      transform: translateY(-1px);
     }
 
-    /* HERO */
+    .login-btn.logged-in {
+      border-color: rgba(255,23,68,.35);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,23,68,.15),
+          rgba(255,255,255,.05)
+        );
+    }
+
+    /* =========================
+       HERO
+    ========================= */
 
     .hero {
       position: relative;
@@ -217,7 +255,9 @@
       line-height: 1.7;
     }
 
-    /* SEARCH */
+    /* =========================
+       SEARCH
+    ========================= */
 
     .search-wrap {
       width: min(650px, 100%);
@@ -256,7 +296,9 @@
       color: #888;
     }
 
-    /* SECTION */
+    /* =========================
+       SECTIONS
+    ========================= */
 
     section {
       padding: 70px 0;
@@ -287,7 +329,9 @@
       font-weight: 700;
     }
 
-    /* CATEGORY CARDS */
+    /* =========================
+       CATEGORY CARDS
+    ========================= */
 
     .categories {
       display: grid;
@@ -305,8 +349,13 @@
       border-radius: 22px;
       border: 1px solid var(--border);
       background:
-        linear-gradient(145deg, rgba(255,23,68,.16), rgba(255,255,255,.045));
+        linear-gradient(
+          145deg,
+          rgba(255,23,68,.16),
+          rgba(255,255,255,.045)
+        );
       backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       transition: .25s ease;
       cursor: pointer;
     }
@@ -335,7 +384,9 @@
       font-size: 18px;
     }
 
-    /* WALLPAPERS */
+    /* =========================
+       WALLPAPERS
+    ========================= */
 
     .wallpaper-grid {
       display: grid;
@@ -364,8 +415,16 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 50% 30%, rgba(255,23,68,.28), transparent 30%),
-        linear-gradient(160deg, #1a1a1a, #050505 65%);
+        radial-gradient(
+          circle at 50% 30%,
+          rgba(255,23,68,.28),
+          transparent 30%
+        ),
+        linear-gradient(
+          160deg,
+          #1a1a1a,
+          #050505 65%
+        );
     }
 
     .wallpaper-overlay {
@@ -375,10 +434,11 @@
       flex-direction: column;
       justify-content: end;
       padding: 18px;
-      background: linear-gradient(
-        transparent 35%,
-        rgba(0,0,0,.82) 100%
-      );
+      background:
+        linear-gradient(
+          transparent 35%,
+          rgba(0,0,0,.82) 100%
+        );
     }
 
     .wallpaper-title {
@@ -407,9 +467,12 @@
       cursor: pointer;
       z-index: 3;
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
-    /* FOOTER */
+    /* =========================
+       FOOTER
+    ========================= */
 
     footer {
       padding: 45px 0;
@@ -423,9 +486,50 @@
       color: #ddd;
     }
 
-    /* RESPONSIVE */
+    /* =========================
+       AUTH STATUS
+    ========================= */
+
+    .auth-status {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 999;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(10,10,10,.82);
+      border: 1px solid rgba(255,255,255,.08);
+      color: #888;
+      font-size: 12px;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: .25s ease;
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+
+    .auth-status.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .auth-status.success {
+      color: #65ff9b;
+      border-color: rgba(101,255,155,.2);
+    }
+
+    .auth-status.error {
+      color: #ff6b88;
+      border-color: rgba(255,107,136,.2);
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
 
     @media (max-width: 900px) {
+
       .categories {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -440,6 +544,7 @@
     }
 
     @media (max-width: 650px) {
+
       .container {
         width: min(100% - 22px, 1180px);
       }
@@ -472,37 +577,88 @@
       .section-head {
         align-items: center;
       }
+
+      .brand {
+        font-size: 17px;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+      }
+
+      .login-btn {
+        padding: 9px 12px;
+        max-width: 130px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   </style>
 </head>
 
 <body>
 
+  <!-- =========================
+       NAVBAR
+  ========================= -->
+
   <header class="navbar">
+
     <div class="container nav-inner">
 
-      <a href="#" class="brand">
-        <span class="brand-mark">PG</span>
-        <span>PG Wallpaper</span>
+      <a href="#home" class="brand">
+
+        <span class="brand-mark">
+          PG
+        </span>
+
+        <span>
+          PG Wallpaper
+        </span>
+
       </a>
 
       <nav class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#categories">Categories</a>
-        <a href="#wallpapers">Wallpapers</a>
+
+        <a href="#home">
+          Home
+        </a>
+
+        <a href="#categories">
+          Categories
+        </a>
+
+        <a href="#wallpapers">
+          Wallpapers
+        </a>
+
       </nav>
 
-      <button class="login-btn" id="loginBtn">
+      <button
+        class="login-btn"
+        id="loginBtn"
+        type="button"
+      >
         Login
       </button>
 
     </div>
+
   </header>
 
 
+  <!-- =========================
+       MAIN
+  ========================= -->
+
   <main id="home">
 
+    <!-- HERO -->
+
     <section class="hero">
+
       <div class="container hero-content">
 
         <div class="eyebrow">
@@ -520,190 +676,517 @@
         </p>
 
         <div class="search-wrap">
-          <span class="search-icon">⌕</span>
+
+          <span class="search-icon">
+            ⌕
+          </span>
+
           <input
             id="searchInput"
             type="search"
             placeholder="Search wallpapers..."
             autocomplete="off"
           />
+
         </div>
 
       </div>
+
     </section>
 
 
+    <!-- =========================
+         CATEGORIES
+    ========================= -->
+
     <section id="categories">
+
       <div class="container">
 
         <div class="section-head">
+
           <div>
-            <h2>Explore Categories</h2>
-            <p>Find the style that matches your screen.</p>
+
+            <h2>
+              Explore Categories
+            </h2>
+
+            <p>
+              Find the style that matches your screen.
+            </p>
+
           </div>
 
-          <a href="#" class="view-all">View all</a>
+          <a href="#" class="view-all">
+            View all
+          </a>
+
         </div>
+
 
         <div class="categories">
 
           <div class="category">
-            <h3>Anime</h3>
+            <h3>
+              Anime
+            </h3>
           </div>
 
           <div class="category">
-            <h3>Dark</h3>
+            <h3>
+              Dark
+            </h3>
           </div>
 
           <div class="category">
-            <h3>Minimal</h3>
+            <h3>
+              Minimal
+            </h3>
           </div>
 
           <div class="category">
-            <h3>Fantasy</h3>
+            <h3>
+              Fantasy
+            </h3>
           </div>
 
         </div>
 
       </div>
+
     </section>
 
 
+    <!-- =========================
+         WALLPAPERS
+    ========================= -->
+
     <section id="wallpapers">
+
       <div class="container">
 
         <div class="section-head">
+
           <div>
-            <h2>Featured Wallpapers</h2>
-            <p>Premium artwork for your screen.</p>
+
+            <h2>
+              Featured Wallpapers
+            </h2>
+
+            <p>
+              Premium artwork for your screen.
+            </p>
+
           </div>
 
-          <a href="#" class="view-all">View all</a>
+          <a href="#" class="view-all">
+            View all
+          </a>
+
         </div>
+
 
         <div class="wallpaper-grid">
 
+          <!-- WALLPAPER 1 -->
+
           <article class="wallpaper-card">
+
             <div class="wallpaper-image"></div>
 
-            <button class="favorite" aria-label="Add to favorites">
+            <button
+              class="favorite"
+              aria-label="Add to favorites"
+              type="button"
+            >
               ♡
             </button>
 
             <div class="wallpaper-overlay">
+
               <div class="wallpaper-title">
                 Crimson Night
               </div>
+
               <div class="wallpaper-meta">
                 Dark • 4K
               </div>
+
             </div>
+
           </article>
 
 
+          <!-- WALLPAPER 2 -->
+
           <article class="wallpaper-card">
+
             <div class="wallpaper-image"></div>
 
-            <button class="favorite" aria-label="Add to favorites">
+            <button
+              class="favorite"
+              aria-label="Add to favorites"
+              type="button"
+            >
               ♡
             </button>
 
             <div class="wallpaper-overlay">
+
               <div class="wallpaper-title">
                 Black Horizon
               </div>
+
               <div class="wallpaper-meta">
                 Minimal • 4K
               </div>
+
             </div>
+
           </article>
 
 
+          <!-- WALLPAPER 3 -->
+
           <article class="wallpaper-card">
+
             <div class="wallpaper-image"></div>
 
-            <button class="favorite" aria-label="Add to favorites">
+            <button
+              class="favorite"
+              aria-label="Add to favorites"
+              type="button"
+            >
               ♡
             </button>
 
             <div class="wallpaper-overlay">
+
               <div class="wallpaper-title">
                 Scarlet Dream
               </div>
+
               <div class="wallpaper-meta">
                 Fantasy • 4K
               </div>
+
             </div>
+
           </article>
 
 
+          <!-- WALLPAPER 4 -->
+
           <article class="wallpaper-card">
+
             <div class="wallpaper-image"></div>
 
-            <button class="favorite" aria-label="Add to favorites">
+            <button
+              class="favorite"
+              aria-label="Add to favorites"
+              type="button"
+            >
               ♡
             </button>
 
             <div class="wallpaper-overlay">
+
               <div class="wallpaper-title">
                 Neon Void
               </div>
+
               <div class="wallpaper-meta">
                 Abstract • 4K
               </div>
+
             </div>
+
           </article>
 
         </div>
 
       </div>
+
     </section>
 
   </main>
 
 
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
   <footer>
+
     <div class="container">
-      © 2026 <strong>PG Wallpaper</strong>. Premium wallpapers.
+
+      © 2026
+      <strong>
+        PG Wallpaper
+      </strong>.
+      Premium wallpapers.
+
     </div>
+
   </footer>
 
 
-  <script>
-    const searchInput = document.getElementById("searchInput");
-    const cards = document.querySelectorAll(".wallpaper-card");
+  <!-- AUTH STATUS -->
 
-    searchInput.addEventListener("input", () => {
-      const query = searchInput.value.toLowerCase().trim();
+  <div
+    class="auth-status"
+    id="authStatus"
+  ></div>
 
-      cards.forEach(card => {
-        const title =
-          card.querySelector(".wallpaper-title")?.textContent.toLowerCase() || "";
 
-        const meta =
-          card.querySelector(".wallpaper-meta")?.textContent.toLowerCase() || "";
+  <!-- =========================
+       FIREBASE + PAGE JAVASCRIPT
+  ========================= -->
 
-        card.style.display =
-          title.includes(query) || meta.includes(query)
-            ? ""
-            : "none";
+  <script type="module">
+
+    import {
+      watchAuthState,
+      logoutUser
+    } from "./js/auth.js";
+
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+    const cards =
+      document.querySelectorAll(".wallpaper-card");
+
+    const loginBtn =
+      document.getElementById("loginBtn");
+
+    const authStatus =
+      document.getElementById("authStatus");
+
+
+    /* =========================
+       STATUS MESSAGE
+    ========================= */
+
+    let statusTimer = null;
+
+    function showStatus(
+      text,
+      type = "success"
+    ) {
+
+      clearTimeout(statusTimer);
+
+      authStatus.textContent = text;
+
+      authStatus.className =
+        `auth-status show ${type}`;
+
+      statusTimer = setTimeout(() => {
+
+        authStatus.classList.remove("show");
+
+      }, 2500);
+
+    }
+
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    searchInput.addEventListener(
+      "input",
+      () => {
+
+        const query =
+          searchInput.value
+            .toLowerCase()
+            .trim();
+
+        cards.forEach(card => {
+
+          const title =
+            card
+              .querySelector(".wallpaper-title")
+              ?.textContent
+              .toLowerCase() || "";
+
+          const meta =
+            card
+              .querySelector(".wallpaper-meta")
+              ?.textContent
+              .toLowerCase() || "";
+
+          card.style.display =
+            title.includes(query) ||
+            meta.includes(query)
+              ? ""
+              : "none";
+
+        });
+
+      }
+    );
+
+
+    /* =========================
+       FAVORITES
+    ========================= */
+
+    document
+      .querySelectorAll(".favorite")
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          event => {
+
+            event.stopPropagation();
+
+            button.textContent =
+              button.textContent === "♡"
+                ? "♥"
+                : "♡";
+
+          }
+        );
+
       });
+
+
+    /* =========================
+       FIREBASE AUTH STATE
+    ========================= */
+
+    watchAuthState(user => {
+
+      /* =====================
+         USER LOGGED IN
+      ===================== */
+
+      if (user) {
+
+        const displayName =
+          user.displayName?.trim();
+
+        const email =
+          user.email || "";
+
+        const accountName =
+          displayName ||
+          email.split("@")[0] ||
+          "Account";
+
+
+        loginBtn.textContent =
+          accountName;
+
+        loginBtn.classList.add(
+          "logged-in"
+        );
+
+        loginBtn.title =
+          email;
+
+
+        loginBtn.onclick =
+          async () => {
+
+            const shouldLogout =
+              confirm(
+                `Logged in as:\n${accountName}\n${email}\n\nLogout?`
+              );
+
+            if (!shouldLogout) {
+              return;
+            }
+
+
+            loginBtn.disabled = true;
+
+            loginBtn.textContent =
+              "Logging out...";
+
+
+            const result =
+              await logoutUser();
+
+
+            if (result.success) {
+
+              showStatus(
+                "Logged out successfully.",
+                "success"
+              );
+
+            } else {
+
+              loginBtn.disabled = false;
+
+              loginBtn.textContent =
+                accountName;
+
+              showStatus(
+                result.message ||
+                "Logout failed.",
+                "error"
+              );
+
+            }
+
+          };
+
+
+        console.log(
+          "PG Wallpaper: User logged in",
+          user.uid,
+          user.email
+        );
+
+      }
+
+
+      /* =====================
+         USER LOGGED OUT
+      ===================== */
+
+      else {
+
+        loginBtn.disabled = false;
+
+        loginBtn.textContent =
+          "Login";
+
+        loginBtn.classList.remove(
+          "logged-in"
+        );
+
+        loginBtn.title =
+          "Login to PG Wallpaper";
+
+
+        loginBtn.onclick =
+          () => {
+
+            window.location.href =
+              "login.html";
+
+          };
+
+
+        console.log(
+          "PG Wallpaper: User logged out"
+        );
+
+      }
+
     });
 
-
-    document.querySelectorAll(".favorite").forEach(button => {
-      button.addEventListener("click", event => {
-        event.stopPropagation();
-
-        button.textContent =
-          button.textContent === "♡" ? "♥" : "♡";
-      });
-    });
-
-
-    document.getElementById("loginBtn").addEventListener("click", () => {
-      alert("Login system will be connected to Firebase Authentication.");
-    });
   </script>
 
 </body>
