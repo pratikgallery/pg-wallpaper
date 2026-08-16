@@ -3,84 +3,131 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile,
-  sendPasswordResetEmail
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
   doc,
   setDoc,
-  getDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 import {
   auth,
   db
-} from "./firebase.js";
+} from "./firebase-config.js";
 
 
-/* ==================================================
-   CREATE USER
-================================================== */
 
-export async function signupUser(
-  name,
+/* =========================================================
+   SIGN UP
+========================================================= */
+
+async function registerUser(
+  displayName,
   email,
   password
 ) {
 
   try {
 
-    const credential =
+    const userCredential =
       await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
 
+
     const user =
-      credential.user;
+      userCredential.user;
 
 
-    /* Update Firebase profile */
+    /* =========================
+       FIREBASE AUTH PROFILE
+    ========================= */
 
     await updateProfile(
       user,
       {
-        displayName: name
+        displayName:
+          displayName.trim()
       }
     );
 
 
-    /* Create Firestore user profile */
+    /* =========================
+       FIRESTORE USER DOCUMENT
+    ========================= */
 
     await setDoc(
-      doc(db, "users", user.uid),
+      doc(
+        db,
+        "users",
+        user.uid
+      ),
       {
-        uid: user.uid,
-        displayName: name,
-        email: user.email,
-        photoURL: "",
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      },
-      {
-        merge: true
+
+        uid:
+          user.uid,
+
+        displayName:
+          displayName.trim(),
+
+        email:
+          user.email,
+
+        role:
+          "user",
+
+        photoUrl:
+          "",
+
+        createdAt:
+          serverTimestamp(),
+
+        updatedAt:
+          serverTimestamp(),
+
+        isActive:
+          true
+
       }
     );
 
 
     return {
-      success: true,
-      user
+
+      success:
+        true,
+
+      user:
+        user
+
     };
+
 
   } catch (error) {
 
+    console.error(
+      "Signup error:",
+      error
+    );
+
+
     return {
-      success: false,
-      message: getAuthError(error)
+
+      success:
+        false,
+
+      code:
+        error.code,
+
+      message:
+        getAuthErrorMessage(
+          error.code
+        )
+
     };
 
   }
@@ -88,34 +135,58 @@ export async function signupUser(
 }
 
 
-/* ==================================================
-   LOGIN
-================================================== */
 
-export async function loginUser(
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function loginUser(
   email,
   password
 ) {
 
   try {
 
-    const credential =
+    const userCredential =
       await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
 
+
     return {
-      success: true,
-      user: credential.user
+
+      success:
+        true,
+
+      user:
+        userCredential.user
+
     };
+
 
   } catch (error) {
 
+    console.error(
+      "Login error:",
+      error
+    );
+
+
     return {
-      success: false,
-      message: getAuthError(error)
+
+      success:
+        false,
+
+      code:
+        error.code,
+
+      message:
+        getAuthErrorMessage(
+          error.code
+        )
+
     };
 
   }
@@ -123,25 +194,47 @@ export async function loginUser(
 }
 
 
-/* ==================================================
-   LOGOUT
-================================================== */
 
-export async function logoutUser() {
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logoutUser() {
 
   try {
 
-    await signOut(auth);
+    await signOut(
+      auth
+    );
+
 
     return {
-      success: true
+
+      success:
+        true
+
     };
+
 
   } catch (error) {
 
+    console.error(
+      "Logout error:",
+      error
+    );
+
+
     return {
-      success: false,
-      message: getAuthError(error)
+
+      success:
+        false,
+
+      code:
+        error.code,
+
+      message:
+        "Logout failed. Please try again."
+
     };
 
   }
@@ -149,204 +242,124 @@ export async function logoutUser() {
 }
 
 
-/* ==================================================
-   AUTH STATE
-================================================== */
 
-export function watchAuthState(
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+function watchAuthState(
   callback
 ) {
 
   return onAuthStateChanged(
     auth,
-    callback
+    user => {
+
+      callback(
+        user
+      );
+
+    }
   );
 
 }
 
 
-/* ==================================================
-   CURRENT USER
-================================================== */
 
-export function getCurrentUser() {
+/* =========================================================
+   AUTH ERROR MESSAGES
+========================================================= */
 
-  return auth.currentUser;
-
-}
-
-
-/* ==================================================
-   GET USER PROFILE
-================================================== */
-
-export async function getUserProfile(
-  uid
+function getAuthErrorMessage(
+  code
 ) {
-
-  try {
-
-    const snapshot =
-      await getDoc(
-        doc(db, "users", uid)
-      );
-
-    if (!snapshot.exists()) {
-
-      return {
-        success: false,
-        data: null
-      };
-
-    }
-
-    return {
-      success: true,
-      data: snapshot.data()
-    };
-
-  } catch (error) {
-
-    return {
-      success: false,
-      data: null,
-      message: getAuthError(error)
-    };
-
-  }
-
-}
-
-
-/* ==================================================
-   UPDATE USER PROFILE
-================================================== */
-
-export async function updateUserProfile(
-  name
-) {
-
-  try {
-
-    const user =
-      auth.currentUser;
-
-    if (!user) {
-
-      return {
-        success: false,
-        message: "You are not logged in."
-      };
-
-    }
-
-
-    await updateProfile(
-      user,
-      {
-        displayName: name
-      }
-    );
-
-
-    await setDoc(
-      doc(db, "users", user.uid),
-      {
-        displayName: name,
-        email: user.email,
-        updatedAt: serverTimestamp()
-      },
-      {
-        merge: true
-      }
-    );
-
-
-    return {
-      success: true
-    };
-
-  } catch (error) {
-
-    return {
-      success: false,
-      message: getAuthError(error)
-    };
-
-  }
-
-}
-
-
-/* ==================================================
-   PASSWORD RESET
-================================================== */
-
-export async function resetPassword(
-  email
-) {
-
-  try {
-
-    await sendPasswordResetEmail(
-      auth,
-      email
-    );
-
-    return {
-      success: true
-    };
-
-  } catch (error) {
-
-    return {
-      success: false,
-      message: getAuthError(error)
-    };
-
-  }
-
-}
-
-
-/* ==================================================
-   FIREBASE ERROR TRANSLATOR
-================================================== */
-
-function getAuthError(error) {
-
-  const code =
-    error?.code || "";
 
   switch (code) {
 
+
     case "auth/email-already-in-use":
-      return "This email is already registered.";
+
+      return
+        "This email is already registered.";
+
 
     case "auth/invalid-email":
-      return "Please enter a valid email.";
+
+      return
+        "Please enter a valid email address.";
+
 
     case "auth/weak-password":
-      return "Password is too weak. Use at least 6 characters.";
+
+      return
+        "Password is too weak.";
+
 
     case "auth/invalid-credential":
-      return "Invalid email or password.";
+
+      return
+        "Invalid email or password.";
+
 
     case "auth/user-not-found":
-      return "No account found with this email.";
+
+      return
+        "No account found with this email.";
+
 
     case "auth/wrong-password":
-      return "Incorrect password.";
+
+      return
+        "Incorrect password.";
+
 
     case "auth/too-many-requests":
-      return "Too many attempts. Try again later.";
+
+      return
+        "Too many attempts. Try again later.";
+
 
     case "auth/network-request-failed":
-      return "Network error. Check your internet connection.";
+
+      return
+        "Network error. Check your internet connection.";
+
+
+    case "auth/user-disabled":
+
+      return
+        "This account has been disabled.";
+
+
+    case "auth/operation-not-allowed":
+
+      return
+        "This authentication method is not enabled.";
+
 
     default:
-      return error?.message ||
-        "Something went wrong.";
+
+      return
+        "Authentication failed. Please try again.";
+
   }
 
 }
+
+
+
+/* =========================================================
+   EXPORT
+========================================================= */
+
+export {
+
+  registerUser,
+
+  loginUser,
+
+  logoutUser,
+
+  watchAuthState
+
+};
