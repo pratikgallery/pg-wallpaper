@@ -3,7 +3,10 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile
+  updateProfile,
+  setPersistence,
+  browserLocalPersistence,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
@@ -18,6 +21,35 @@ import {
 } from "./firebase-config.js";
 
 
+/* =========================================================
+   AUTH PERSISTENCE
+   Keeps user logged in after page refresh.
+========================================================= */
+
+async function ensurePersistence() {
+
+  try {
+
+    await setPersistence(
+      auth,
+      browserLocalPersistence
+    );
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "Auth persistence error:",
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
 
 /* =========================================================
    SIGN UP
@@ -30,6 +62,55 @@ async function registerUser(
 ) {
 
   try {
+
+    displayName =
+      displayName.trim();
+
+    email =
+      email.trim().toLowerCase();
+
+
+    if (!displayName) {
+
+      return {
+        success: false,
+        message: "Please enter your name."
+      };
+
+    }
+
+
+    if (!email) {
+
+      return {
+        success: false,
+        message: "Please enter your email."
+      };
+
+    }
+
+
+    if (password.length < 6) {
+
+      return {
+        success: false,
+        message:
+          "Password must be at least 6 characters."
+      };
+
+    }
+
+
+    /* =========================
+       ENABLE PERSISTENCE
+    ========================= */
+
+    await ensurePersistence();
+
+
+    /* =========================
+       CREATE FIREBASE ACCOUNT
+    ========================= */
 
     const userCredential =
       await createUserWithEmailAndPassword(
@@ -44,56 +125,83 @@ async function registerUser(
 
 
     /* =========================
-       FIREBASE AUTH PROFILE
+       UPDATE AUTH PROFILE
     ========================= */
 
     await updateProfile(
       user,
       {
-        displayName:
-          displayName.trim()
+        displayName: displayName
       }
     );
+
+
+    /*
+      Firebase may update displayName
+      asynchronously. Refresh the user.
+    */
+
+    await user.reload();
 
 
     /* =========================
-       FIRESTORE USER DOCUMENT
+       CREATE FIRESTORE USER
     ========================= */
 
-    await setDoc(
-      doc(
-        db,
-        "users",
-        user.uid
-      ),
-      {
+    try {
 
-        uid:
-          user.uid,
+      await setDoc(
+        doc(
+          db,
+          "users",
+          user.uid
+        ),
+        {
 
-        displayName:
-          displayName.trim(),
+          uid:
+            user.uid,
 
-        email:
-          user.email,
+          displayName:
+            displayName,
 
-        role:
-          "user",
+          email:
+            user.email,
 
-        photoUrl:
-          "",
+          role:
+            "user",
 
-        createdAt:
-          serverTimestamp(),
+          photoUrl:
+            "",
 
-        updatedAt:
-          serverTimestamp(),
+          createdAt:
+            serverTimestamp(),
 
-        isActive:
-          true
+          updatedAt:
+            serverTimestamp(),
 
-      }
-    );
+          isActive:
+            true
+
+        }
+      );
+
+    } catch (firestoreError) {
+
+      /*
+        Authentication account has already
+        been created successfully.
+
+        If Firestore rules temporarily block
+        the profile document, don't make the
+        user think account creation failed.
+      */
+
+      console.error(
+        "Firestore profile error:",
+        firestoreError
+      );
+
+    }
 
 
     return {
@@ -102,7 +210,7 @@ async function registerUser(
         true,
 
       user:
-        user
+        auth.currentUser
 
     };
 
@@ -135,7 +243,6 @@ async function registerUser(
 }
 
 
-
 /* =========================================================
    LOGIN
 ========================================================= */
@@ -146,6 +253,41 @@ async function loginUser(
 ) {
 
   try {
+
+    email =
+      email.trim().toLowerCase();
+
+
+    if (!email) {
+
+      return {
+        success: false,
+        message: "Please enter your email."
+      };
+
+    }
+
+
+    if (!password) {
+
+      return {
+        success: false,
+        message: "Please enter your password."
+      };
+
+    }
+
+
+    /* =========================
+       ENABLE PERSISTENCE
+    ========================= */
+
+    await ensurePersistence();
+
+
+    /* =========================
+       LOGIN
+    ========================= */
 
     const userCredential =
       await signInWithEmailAndPassword(
@@ -193,6 +335,79 @@ async function loginUser(
 
 }
 
+
+/* =========================================================
+   PASSWORD RESET
+========================================================= */
+
+async function resetPassword(
+  email
+) {
+
+  try {
+
+    email =
+      email.trim().toLowerCase();
+
+
+    if (!email) {
+
+      return {
+
+        success:
+          false,
+
+        message:
+          "Please enter your email address."
+
+      };
+
+    }
+
+
+    await sendPasswordResetEmail(
+      auth,
+      email
+    );
+
+
+    return {
+
+      success:
+        true,
+
+      message:
+        "Password reset email sent."
+
+    };
+
+
+  } catch (error) {
+
+    console.error(
+      "Password reset error:",
+      error
+    );
+
+
+    return {
+
+      success:
+        false,
+
+      code:
+        error.code,
+
+      message:
+        getAuthErrorMessage(
+          error.code
+        )
+
+    };
+
+  }
+
+}
 
 
 /* =========================================================
@@ -242,7 +457,6 @@ async function logoutUser() {
 }
 
 
-
 /* =========================================================
    AUTH STATE
 ========================================================= */
@@ -265,7 +479,6 @@ function watchAuthState(
 }
 
 
-
 /* =========================================================
    AUTH ERROR MESSAGES
 ========================================================= */
@@ -276,80 +489,65 @@ function getAuthErrorMessage(
 
   switch (code) {
 
-
     case "auth/email-already-in-use":
-
-      return
-        "This email is already registered.";
-
+      return "This email is already registered.";
 
     case "auth/invalid-email":
-
-      return
-        "Please enter a valid email address.";
-
+      return "Please enter a valid email address.";
 
     case "auth/weak-password":
-
-      return
-        "Password is too weak.";
-
+      return "Password is too weak. Use at least 6 characters.";
 
     case "auth/invalid-credential":
-
-      return
-        "Invalid email or password.";
-
+      return "Invalid email or password.";
 
     case "auth/user-not-found":
-
-      return
-        "No account found with this email.";
-
+      return "No account found with this email.";
 
     case "auth/wrong-password":
-
-      return
-        "Incorrect password.";
-
+      return "Incorrect password.";
 
     case "auth/too-many-requests":
-
-      return
-        "Too many attempts. Try again later.";
-
+      return "Too many login attempts. Try again later.";
 
     case "auth/network-request-failed":
-
-      return
-        "Network error. Check your internet connection.";
-
+      return "Network error. Check your internet connection.";
 
     case "auth/user-disabled":
-
-      return
-        "This account has been disabled.";
-
+      return "This account has been disabled.";
 
     case "auth/operation-not-allowed":
+      return "Email/password authentication is not enabled in Firebase.";
 
-      return
-        "This authentication method is not enabled.";
+    case "auth/requires-recent-login":
+      return "Please login again and retry.";
 
+    case "auth/invalid-verification-code":
+      return "The verification code is invalid.";
+
+    case "auth/invalid-verification-id":
+      return "The verification request is invalid.";
+
+    case "auth/user-token-expired":
+      return "Your session expired. Please login again.";
+
+    case "auth/network-request-failed":
+      return "Network connection failed.";
 
     default:
-
-      return
-        "Authentication failed. Please try again.";
+      return (
+        "Authentication failed." +
+        (code ? ` (${code})` : "") +
+        " Please try again."
+      );
 
   }
 
 }
 
 
-
 /* =========================================================
-   EXPORT
+   EXPORTS
 ========================================================= */
 
 export {
@@ -360,6 +558,8 @@ export {
 
   logoutUser,
 
-  watchAuthState
+  watchAuthState,
+
+  resetPassword
 
 };
