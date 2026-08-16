@@ -1,258 +1,476 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#050505">
-  <title>Login — PG Wallpaper</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8">
 
-    body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(255,23,68,.16), transparent 35%),
-        radial-gradient(circle at 90% 90%, rgba(157,0,38,.13), transparent 30%),
-        #050505;
-      color: #fff;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-    .login-card {
-      width: min(430px, 100%);
-      padding: 34px;
-      border: 1px solid rgba(255,255,255,.11);
-      border-radius: 28px;
-      background: rgba(255,255,255,.055);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      box-shadow:
-        0 30px 90px rgba(0,0,0,.45),
-        0 0 50px rgba(255,23,68,.08);
-    }
+<meta
+  name="theme-color"
+  content="#050505"
+>
 
-    .logo {
-      width: 58px;
-      height: 58px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 24px;
-      border-radius: 17px;
-      background: linear-gradient(145deg,#ff1744,#70001d);
-      font-size: 17px;
-      font-weight: 950;
-      box-shadow: 0 0 30px rgba(255,23,68,.25);
-    }
+<title>Login — PG Wallpaper</title>
 
-    h1 {
-      font-size: 32px;
-      letter-spacing: -1.5px;
-    }
 
-    .subtitle {
-      margin-top: 8px;
-      margin-bottom: 28px;
-      color: #999;
-      font-size: 14px;
-      line-height: 1.6;
-    }
+<style>
 
-    .field {
-      margin-bottom: 17px;
-    }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #ccc;
-      font-size: 13px;
-      font-weight: 650;
-    }
+body{
 
-    input {
-      width: 100%;
-      height: 52px;
-      padding: 0 15px;
-      border: 1px solid rgba(255,255,255,.11);
-      border-radius: 14px;
-      outline: none;
-      background: rgba(255,255,255,.055);
-      color: white;
-    }
+  min-height:100vh;
 
-    input:focus {
-      border-color: rgba(255,23,68,.6);
-      box-shadow: 0 0 0 4px rgba(255,23,68,.08);
-    }
+  display:grid;
 
-    .login-button {
-      width: 100%;
-      height: 52px;
-      margin-top: 8px;
-      border: 0;
-      border-radius: 14px;
-      background: linear-gradient(135deg,#ff1744,#b0002d);
-      color: white;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 12px 30px rgba(255,23,68,.18);
-    }
+  place-items:center;
 
-    .login-button:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
+  padding:20px;
 
-    .message {
-      min-height: 20px;
-      margin-top: 15px;
-      font-size: 13px;
-      color: #ff6b88;
-    }
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(255,23,68,.16),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(157,0,38,.13),
+      transparent 30%
+    ),
+    #050505;
 
-    .bottom {
-      margin-top: 24px;
-      text-align: center;
-      color: #888;
-      font-size: 13px;
-    }
+  color:white;
 
-    .bottom a {
-      color: #ff4f72;
-      font-weight: 700;
-    }
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 
-    .back {
-      display: block;
-      margin-top: 20px;
-      text-align: center;
-      color: #777;
-      font-size: 13px;
-    }
+}
 
-    .back:hover {
-      color: white;
-    }
-  </style>
+.login-card{
+
+  width:min(430px,100%);
+
+  padding:34px;
+
+  border:
+    1px solid rgba(255,255,255,.11);
+
+  border-radius:28px;
+
+  background:
+    rgba(255,255,255,.055);
+
+  backdrop-filter:
+    blur(25px);
+
+  -webkit-backdrop-filter:
+    blur(25px);
+
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.45),
+    0 0 50px rgba(255,23,68,.08);
+
+}
+
+.logo{
+
+  width:58px;
+  height:58px;
+
+  display:grid;
+  place-items:center;
+
+  margin-bottom:24px;
+
+  border-radius:17px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ff1744,
+      #70001d
+    );
+
+  font-size:17px;
+  font-weight:950;
+
+  box-shadow:
+    0 0 30px rgba(255,23,68,.25);
+
+}
+
+h1{
+
+  font-size:32px;
+
+  letter-spacing:-1.5px;
+
+}
+
+.subtitle{
+
+  margin-top:8px;
+
+  margin-bottom:28px;
+
+  color:#999;
+
+  font-size:14px;
+
+  line-height:1.6;
+
+}
+
+.field{
+
+  margin-bottom:17px;
+
+}
+
+label{
+
+  display:block;
+
+  margin-bottom:8px;
+
+  color:#ccc;
+
+  font-size:13px;
+
+  font-weight:650;
+
+}
+
+input{
+
+  width:100%;
+
+  height:52px;
+
+  padding:0 15px;
+
+  border:
+    1px solid rgba(255,255,255,.11);
+
+  border-radius:14px;
+
+  outline:none;
+
+  background:
+    rgba(255,255,255,.055);
+
+  color:white;
+
+}
+
+input:focus{
+
+  border-color:
+    rgba(255,23,68,.6);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(255,23,68,.08);
+
+}
+
+button{
+
+  width:100%;
+
+  height:52px;
+
+  margin-top:8px;
+
+  border:0;
+
+  border-radius:14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff1744,
+      #b0002d
+    );
+
+  color:white;
+
+  font-weight:800;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 12px 30px
+    rgba(255,23,68,.18);
+
+}
+
+button:disabled{
+
+  opacity:.6;
+
+  cursor:wait;
+
+}
+
+.message{
+
+  min-height:20px;
+
+  margin-top:15px;
+
+  font-size:13px;
+
+}
+
+.bottom{
+
+  margin-top:24px;
+
+  text-align:center;
+
+  color:#888;
+
+  font-size:13px;
+
+}
+
+.bottom a{
+
+  color:#ff4f72;
+
+  font-weight:700;
+
+}
+
+.back{
+
+  display:block;
+
+  margin-top:20px;
+
+  text-align:center;
+
+  color:#777;
+
+  font-size:13px;
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-  <main class="login-card">
 
-    <div class="logo">PG</div>
+<main class="login-card">
 
-    <h1>Welcome back</h1>
 
-    <p class="subtitle">
-      Login to your PG Wallpaper account.
-    </p>
+<div class="logo">
+PG
+</div>
 
-    <form id="loginForm">
 
-      <div class="field">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="you@example.com"
-          autocomplete="email"
-          required
-        >
-      </div>
+<h1>
+Welcome back
+</h1>
 
-      <div class="field">
-        <label for="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          placeholder="Enter your password"
-          autocomplete="current-password"
-          required
-        >
-      </div>
 
-      <button
-        class="login-button"
-        id="loginButton"
-        type="submit"
-      >
-        Login
-      </button>
+<p class="subtitle">
+Login to your PG Wallpaper account.
+</p>
 
-      <div
-        class="message"
-        id="message"
-        role="alert"
-      ></div>
 
-    </form>
+<form id="loginForm">
 
-    <div class="bottom">
-      Don't have an account?
-      <a href="signup.html">Create account</a>
-    </div>
 
-    <a class="back" href="index.html">
-      ← Back to PG Wallpaper
-    </a>
+<div class="field">
 
-  </main>
+<label for="email">
+Email
+</label>
 
-  <script type="module">
+<input
+  id="email"
+  type="email"
+  placeholder="you@example.com"
+  autocomplete="email"
+  required
+>
 
-    import { loginUser } from "./js/auth.js";
+</div>
 
-    const form = document.getElementById("loginForm");
-    const button = document.getElementById("loginButton");
-    const message = document.getElementById("message");
 
-    form.addEventListener("submit", async (event) => {
+<div class="field">
 
-      event.preventDefault();
+<label for="password">
+Password
+</label>
 
-      const email =
-        document.getElementById("email").value.trim();
+<input
+  id="password"
+  type="password"
+  placeholder="Enter your password"
+  autocomplete="current-password"
+  required
+>
 
-      const password =
-        document.getElementById("password").value;
+</div>
 
-      message.textContent = "";
-      button.disabled = true;
-      button.textContent = "Logging in...";
 
-      const result =
-        await loginUser(email, password);
+<button
+  id="loginButton"
+  type="submit"
+>
+Login
+</button>
 
-      if (result.success) {
 
-        message.style.color = "#65ff9b";
-        message.textContent = "Login successful.";
+<div
+  class="message"
+  id="message"
+></div>
 
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 700);
 
-      } else {
+</form>
 
-        message.style.color = "#ff6b88";
-        message.textContent = result.message;
 
-        button.disabled = false;
-        button.textContent = "Login";
-      }
+<div class="bottom">
 
-    });
+Don't have an account?
 
-  </script>
+<a href="signup.html">
+Create account
+</a>
+
+</div>
+
+
+<a
+  class="back"
+  href="index.html"
+>
+← Back to PG Wallpaper
+</a>
+
+
+</main>
+
+
+<script type="module">
+
+import {
+  loginUser,
+  resetPassword
+} from "./js/auth.js";
+
+
+const form =
+  document.getElementById(
+    "loginForm"
+  );
+
+const button =
+  document.getElementById(
+    "loginButton"
+  );
+
+const message =
+  document.getElementById(
+    "message"
+  );
+
+
+form.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("password")
+        .value;
+
+
+    message.textContent = "";
+
+    button.disabled = true;
+
+    button.textContent =
+      "Logging in...";
+
+
+    const result =
+      await loginUser(
+        email,
+        password
+      );
+
+
+    if (result.success) {
+
+      message.style.color =
+        "#65ff9b";
+
+      message.textContent =
+        "Login successful.";
+
+
+      setTimeout(
+        () => {
+
+          window.location.href =
+            "index.html";
+
+        },
+        500
+      );
+
+    } else {
+
+      message.style.color =
+        "#ff6b88";
+
+      message.textContent =
+        result.message;
+
+      button.disabled = false;
+
+      button.textContent =
+        "Login";
+
+    }
+
+  }
+);
+
+</script>
 
 </body>
+
 </html>
