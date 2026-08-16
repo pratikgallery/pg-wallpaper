@@ -3,255 +3,315 @@
 
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<meta
-  name="theme-color"
-  content="#050505"
->
+  <meta
+    name="theme-color"
+    content="#050505"
+  >
 
-<title>Create Account — PG Wallpaper</title>
+  <title>Create Account — PG Wallpaper</title>
 
 
-<style>
+  <style>
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+    * {
 
-body{
+      box-sizing: border-box;
 
-  min-height:100vh;
+      margin: 0;
+      padding: 0;
 
-  display:grid;
+    }
 
-  place-items:center;
 
-  padding:20px;
+    body {
 
-  background:
-    radial-gradient(
-      circle at 20% 10%,
-      rgba(255,23,68,.16),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 90% 90%,
-      rgba(157,0,38,.13),
-      transparent 30%
-    ),
-    #050505;
+      min-height: 100vh;
 
-  color:white;
+      display: grid;
 
-  font-family:
-    Inter,
-    system-ui,
-    sans-serif;
+      place-items: center;
 
-}
+      padding: 20px;
 
-.card{
+      background:
 
-  width:min(430px,100%);
+        radial-gradient(
+          circle at 20% 10%,
+          rgba(255,23,68,.16),
+          transparent 35%
+        ),
 
-  padding:34px;
+        radial-gradient(
+          circle at 90% 90%,
+          rgba(157,0,38,.13),
+          transparent 30%
+        ),
 
-  border:
-    1px solid rgba(255,255,255,.11);
+        #050505;
 
-  border-radius:28px;
+      color: white;
 
-  background:
-    rgba(255,255,255,.055);
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 
-  backdrop-filter:
-    blur(25px);
+    }
 
-  -webkit-backdrop-filter:
-    blur(25px);
 
-  box-shadow:
-    0 30px 90px rgba(0,0,0,.45);
+    .card {
 
-}
+      width: min(430px,100%);
 
-.logo{
+      padding: 34px;
 
-  width:58px;
-  height:58px;
+      border:
+        1px solid rgba(255,255,255,.11);
 
-  display:grid;
-  place-items:center;
+      border-radius: 28px;
 
-  margin-bottom:24px;
+      background:
+        rgba(255,255,255,.055);
 
-  border-radius:17px;
+      backdrop-filter:
+        blur(25px);
 
-  background:
-    linear-gradient(
-      145deg,
-      #ff1744,
-      #70001d
-    );
+      -webkit-backdrop-filter:
+        blur(25px);
 
-  font-weight:950;
+      box-shadow:
+        0 30px 90px rgba(0,0,0,.45),
+        0 0 50px rgba(255,23,68,.08);
 
-}
+    }
 
-h1{
 
-  font-size:32px;
+    .logo {
 
-  letter-spacing:-1.5px;
+      width: 58px;
+      height: 58px;
 
-}
+      display: grid;
+      place-items: center;
 
-.subtitle{
+      margin-bottom: 24px;
 
-  margin:
-    8px 0 28px;
+      border-radius: 17px;
 
-  color:#999;
+      background:
+        linear-gradient(
+          145deg,
+          #ff1744,
+          #70001d
+        );
 
-  font-size:14px;
+      font-size: 17px;
 
-}
+      font-weight: 950;
 
-.field{
+      box-shadow:
+        0 0 30px rgba(255,23,68,.25);
 
-  margin-bottom:17px;
+    }
 
-}
 
-label{
+    h1 {
 
-  display:block;
+      font-size: 32px;
 
-  margin-bottom:8px;
+      letter-spacing: -1.5px;
 
-  color:#ccc;
+    }
 
-  font-size:13px;
 
-}
+    .subtitle {
 
-input{
+      margin:
+        8px 0 28px;
 
-  width:100%;
+      color: #999;
 
-  height:52px;
+      font-size: 14px;
 
-  padding:0 15px;
+      line-height: 1.6;
 
-  border:
-    1px solid rgba(255,255,255,.11);
+    }
 
-  border-radius:14px;
 
-  outline:none;
+    .field {
 
-  background:
-    rgba(255,255,255,.055);
+      margin-bottom: 17px;
 
-  color:white;
+    }
 
-}
 
-input:focus{
+    label {
 
-  border-color:
-    rgba(255,23,68,.6);
+      display: block;
 
-  box-shadow:
-    0 0 0 4px
-    rgba(255,23,68,.08);
+      margin-bottom: 8px;
 
-}
+      color: #ccc;
 
-button{
+      font-size: 13px;
 
-  width:100%;
+      font-weight: 650;
 
-  height:52px;
+    }
 
-  margin-top:8px;
 
-  border:0;
+    input {
 
-  border-radius:14px;
+      width: 100%;
 
-  background:
-    linear-gradient(
-      135deg,
-      #ff1744,
-      #b0002d
-    );
+      height: 52px;
 
-  color:white;
+      padding: 0 15px;
 
-  font-weight:800;
+      border:
+        1px solid rgba(255,255,255,.11);
 
-}
+      border-radius: 14px;
 
-button:disabled{
+      outline: none;
 
-  opacity:.6;
+      background:
+        rgba(255,255,255,.055);
 
-}
+      color: white;
 
-.message{
+      font-size: 14px;
 
-  min-height:20px;
+    }
 
-  margin-top:15px;
 
-  font-size:13px;
+    input::placeholder {
+      color: #777;
+    }
 
-}
 
-.bottom{
+    input:focus {
 
-  margin-top:24px;
+      border-color:
+        rgba(255,23,68,.6);
 
-  text-align:center;
+      box-shadow:
+        0 0 0 4px
+        rgba(255,23,68,.08);
 
-  color:#888;
+    }
 
-  font-size:13px;
 
-}
+    button {
 
-.bottom a{
+      width: 100%;
 
-  color:#ff4f72;
+      height: 52px;
 
-  font-weight:700;
+      margin-top: 8px;
 
-}
+      border: 0;
 
-.back{
+      border-radius: 14px;
 
-  display:block;
+      background:
+        linear-gradient(
+          135deg,
+          #ff1744,
+          #b0002d
+        );
 
-  margin-top:20px;
+      color: white;
 
-  text-align:center;
+      font-weight: 800;
 
-  color:#777;
+      cursor: pointer;
 
-  font-size:13px;
+      box-shadow:
+        0 12px 30px
+        rgba(255,23,68,.18);
 
-}
+    }
 
-</style>
+
+    button:disabled {
+
+      opacity: .6;
+
+      cursor: wait;
+
+    }
+
+
+    .message {
+
+      min-height: 20px;
+
+      margin-top: 15px;
+
+      font-size: 13px;
+
+      line-height: 1.5;
+
+    }
+
+
+    .bottom {
+
+      margin-top: 24px;
+
+      text-align: center;
+
+      color: #888;
+
+      font-size: 13px;
+
+    }
+
+
+    .bottom a {
+
+      color: #ff4f72;
+
+      font-weight: 700;
+
+      text-decoration: none;
+
+    }
+
+
+    .back {
+
+      display: block;
+
+      margin-top: 20px;
+
+      text-align: center;
+
+      color: #777;
+
+      font-size: 13px;
+
+      text-decoration: none;
+
+    }
+
+
+    .back:hover {
+      color: white;
+    }
+
+  </style>
 
 </head>
 
@@ -259,221 +319,247 @@ button:disabled{
 <body>
 
 
-<main class="card">
+  <main class="card">
 
 
-<div class="logo">
-PG
-</div>
+    <div class="logo">
+      PG
+    </div>
 
 
-<h1>
-Create account
-</h1>
+    <h1>
+      Create account
+    </h1>
 
 
-<p class="subtitle">
-Join PG Wallpaper and save your favorite wallpapers.
-</p>
+    <p class="subtitle">
+      Join PG Wallpaper and save your favorite wallpapers.
+    </p>
 
 
-<form id="signupForm">
+    <form id="signupForm">
 
 
-<div class="field">
+      <div class="field">
 
-<label for="name">
-Name
-</label>
+        <label for="name">
+          Name
+        </label>
 
-<input
-  id="name"
-  type="text"
-  placeholder="Your name"
-  autocomplete="name"
-  maxlength="60"
-  required
->
+        <input
+          id="name"
+          type="text"
+          placeholder="Your name"
+          autocomplete="name"
+          maxlength="60"
+          required
+        >
 
-</div>
-
-
-<div class="field">
-
-<label for="email">
-Email
-</label>
-
-<input
-  id="email"
-  type="email"
-  placeholder="you@example.com"
-  autocomplete="email"
-  required
->
-
-</div>
+      </div>
 
 
-<div class="field">
+      <div class="field">
 
-<label for="password">
-Password
-</label>
+        <label for="email">
+          Email
+        </label>
 
-<input
-  id="password"
-  type="password"
-  placeholder="Minimum 6 characters"
-  autocomplete="new-password"
-  minlength="6"
-  required
->
+        <input
+          id="email"
+          type="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        >
 
-</div>
-
-
-<button
-  id="signupButton"
-  type="submit"
->
-Create Account
-</button>
+      </div>
 
 
-<div
-  id="message"
-  class="message"
-></div>
+      <div class="field">
+
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          placeholder="Minimum 6 characters"
+          autocomplete="new-password"
+          minlength="6"
+          required
+        >
+
+      </div>
 
 
-</form>
+      <button
+        id="signupButton"
+        type="submit"
+      >
+        Create Account
+      </button>
 
 
-<div class="bottom">
-
-Already have an account?
-
-<a href="login.html">
-Login
-</a>
-
-</div>
+      <div
+        id="message"
+        class="message"
+        role="alert"
+      ></div>
 
 
-<a
-  href="index.html"
-  class="back"
->
-← Back to PG Wallpaper
-</a>
+    </form>
 
 
-</main>
+    <div class="bottom">
+
+      Already have an account?
+
+      <a href="login.html">
+        Login
+      </a>
+
+    </div>
 
 
-<script type="module">
-
-import {
-  signupUser
-} from "./js/auth.js";
-
-
-const form =
-  document.getElementById(
-    "signupForm"
-  );
-
-const button =
-  document.getElementById(
-    "signupButton"
-  );
-
-const message =
-  document.getElementById(
-    "message"
-  );
+    <a
+      href="index.html"
+      class="back"
+    >
+      ← Back to PG Wallpaper
+    </a>
 
 
-form.addEventListener(
-  "submit",
-  async event => {
-
-    event.preventDefault();
+  </main>
 
 
-    const name =
-      document
-        .getElementById("name")
-        .value
-        .trim();
+  <script type="module">
 
-    const email =
-      document
-        .getElementById("email")
-        .value
-        .trim();
-
-    const password =
-      document
-        .getElementById("password")
-        .value;
+    import {
+      registerUser
+    } from "./js/auth.js";
 
 
-    message.textContent = "";
-
-    button.disabled = true;
-
-    button.textContent =
-      "Creating account...";
-
-
-    const result =
-      await signupUser(
-        name,
-        email,
-        password
+    const form =
+      document.getElementById(
+        "signupForm"
       );
 
 
-    if (result.success) {
-
-      message.style.color =
-        "#65ff9b";
-
-      message.textContent =
-        "Account created successfully.";
-
-
-      setTimeout(
-        () => {
-
-          window.location.href =
-            "index.html";
-
-        },
-        700
+    const button =
+      document.getElementById(
+        "signupButton"
       );
 
-    } else {
 
-      message.style.color =
-        "#ff6b88";
+    const message =
+      document.getElementById(
+        "message"
+      );
+
+
+    function showMessage(
+      text,
+      success = false
+    ) {
 
       message.textContent =
-        result.message;
+        text;
 
-      button.disabled = false;
-
-      button.textContent =
-        "Create Account";
+      message.style.color =
+        success
+          ? "#65ff9b"
+          : "#ff6b88";
 
     }
 
-  }
-);
 
-</script>
+    form.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        const name =
+          document
+            .getElementById("name")
+            .value
+            .trim();
+
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+
+        showMessage("");
+
+
+        button.disabled =
+          true;
+
+        button.textContent =
+          "Creating account...";
+
+
+        const result =
+          await registerUser(
+            name,
+            email,
+            password
+          );
+
+
+        if (result.success) {
+
+          showMessage(
+            "Account created successfully. Redirecting...",
+            true
+          );
+
+
+          setTimeout(
+            () => {
+
+              window.location.href =
+                "index.html";
+
+            },
+            700
+          );
+
+
+          return;
+
+        }
+
+
+        showMessage(
+          result.message ||
+          "Account creation failed."
+        );
+
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "Create Account";
+
+      }
+    );
+
+  </script>
+
 
 </body>
 
