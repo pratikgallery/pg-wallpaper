@@ -3,131 +3,84 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile
+  updateProfile,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
   doc,
   setDoc,
+  getDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 import {
   auth,
   db
-} from "./firebase-config.js";
+} from "./firebase.js";
 
 
+/* ==================================================
+   CREATE USER
+================================================== */
 
-/* =========================================================
-   SIGN UP
-========================================================= */
-
-async function registerUser(
-  displayName,
+export async function signupUser(
+  name,
   email,
   password
 ) {
 
   try {
 
-    const userCredential =
+    const credential =
       await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
 
-
     const user =
-      userCredential.user;
+      credential.user;
 
 
-    /* =========================
-       FIREBASE AUTH PROFILE
-    ========================= */
+    /* Update Firebase profile */
 
     await updateProfile(
       user,
       {
-        displayName:
-          displayName.trim()
+        displayName: name
       }
     );
 
 
-    /* =========================
-       FIRESTORE USER DOCUMENT
-    ========================= */
+    /* Create Firestore user profile */
 
     await setDoc(
-      doc(
-        db,
-        "users",
-        user.uid
-      ),
+      doc(db, "users", user.uid),
       {
-
-        uid:
-          user.uid,
-
-        displayName:
-          displayName.trim(),
-
-        email:
-          user.email,
-
-        role:
-          "user",
-
-        photoUrl:
-          "",
-
-        createdAt:
-          serverTimestamp(),
-
-        updatedAt:
-          serverTimestamp(),
-
-        isActive:
-          true
-
+        uid: user.uid,
+        displayName: name,
+        email: user.email,
+        photoURL: "",
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      },
+      {
+        merge: true
       }
     );
 
 
     return {
-
-      success:
-        true,
-
-      user:
-        user
-
+      success: true,
+      user
     };
-
 
   } catch (error) {
 
-    console.error(
-      "Signup error:",
-      error
-    );
-
-
     return {
-
-      success:
-        false,
-
-      code:
-        error.code,
-
-      message:
-        getAuthErrorMessage(
-          error.code
-        )
-
+      success: false,
+      message: getAuthError(error)
     };
 
   }
@@ -135,58 +88,34 @@ async function registerUser(
 }
 
 
-
-/* =========================================================
+/* ==================================================
    LOGIN
-========================================================= */
+================================================== */
 
-async function loginUser(
+export async function loginUser(
   email,
   password
 ) {
 
   try {
 
-    const userCredential =
+    const credential =
       await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
 
-
     return {
-
-      success:
-        true,
-
-      user:
-        userCredential.user
-
+      success: true,
+      user: credential.user
     };
-
 
   } catch (error) {
 
-    console.error(
-      "Login error:",
-      error
-    );
-
-
     return {
-
-      success:
-        false,
-
-      code:
-        error.code,
-
-      message:
-        getAuthErrorMessage(
-          error.code
-        )
-
+      success: false,
+      message: getAuthError(error)
     };
 
   }
@@ -194,47 +123,25 @@ async function loginUser(
 }
 
 
-
-/* =========================================================
+/* ==================================================
    LOGOUT
-========================================================= */
+================================================== */
 
-async function logoutUser() {
+export async function logoutUser() {
 
   try {
 
-    await signOut(
-      auth
-    );
-
+    await signOut(auth);
 
     return {
-
-      success:
-        true
-
+      success: true
     };
-
 
   } catch (error) {
 
-    console.error(
-      "Logout error:",
-      error
-    );
-
-
     return {
-
-      success:
-        false,
-
-      code:
-        error.code,
-
-      message:
-        "Logout failed. Please try again."
-
+      success: false,
+      message: getAuthError(error)
     };
 
   }
@@ -242,124 +149,204 @@ async function logoutUser() {
 }
 
 
-
-/* =========================================================
+/* ==================================================
    AUTH STATE
-========================================================= */
+================================================== */
 
-function watchAuthState(
+export function watchAuthState(
   callback
 ) {
 
   return onAuthStateChanged(
     auth,
-    user => {
-
-      callback(
-        user
-      );
-
-    }
+    callback
   );
 
 }
 
 
+/* ==================================================
+   CURRENT USER
+================================================== */
 
-/* =========================================================
-   AUTH ERROR MESSAGES
-========================================================= */
+export function getCurrentUser() {
 
-function getAuthErrorMessage(
-  code
+  return auth.currentUser;
+
+}
+
+
+/* ==================================================
+   GET USER PROFILE
+================================================== */
+
+export async function getUserProfile(
+  uid
 ) {
 
-  switch (code) {
+  try {
 
+    const snapshot =
+      await getDoc(
+        doc(db, "users", uid)
+      );
 
-    case "auth/email-already-in-use":
+    if (!snapshot.exists()) {
 
-      return
-        "This email is already registered.";
+      return {
+        success: false,
+        data: null
+      };
 
+    }
 
-    case "auth/invalid-email":
+    return {
+      success: true,
+      data: snapshot.data()
+    };
 
-      return
-        "Please enter a valid email address.";
+  } catch (error) {
 
-
-    case "auth/weak-password":
-
-      return
-        "Password is too weak.";
-
-
-    case "auth/invalid-credential":
-
-      return
-        "Invalid email or password.";
-
-
-    case "auth/user-not-found":
-
-      return
-        "No account found with this email.";
-
-
-    case "auth/wrong-password":
-
-      return
-        "Incorrect password.";
-
-
-    case "auth/too-many-requests":
-
-      return
-        "Too many attempts. Try again later.";
-
-
-    case "auth/network-request-failed":
-
-      return
-        "Network error. Check your internet connection.";
-
-
-    case "auth/user-disabled":
-
-      return
-        "This account has been disabled.";
-
-
-    case "auth/operation-not-allowed":
-
-      return
-        "This authentication method is not enabled.";
-
-
-    default:
-
-      return
-        "Authentication failed. Please try again.";
+    return {
+      success: false,
+      data: null,
+      message: getAuthError(error)
+    };
 
   }
 
 }
 
 
+/* ==================================================
+   UPDATE USER PROFILE
+================================================== */
 
-/* =========================================================
-   EXPORT
-========================================================= */
+export async function updateUserProfile(
+  name
+) {
 
-export {
+  try {
 
-  registerUser,
+    const user =
+      auth.currentUser;
 
-  loginUser,
+    if (!user) {
 
-  logoutUser,
+      return {
+        success: false,
+        message: "You are not logged in."
+      };
 
-  watchAuthState
+    }
 
-};
+
+    await updateProfile(
+      user,
+      {
+        displayName: name
+      }
+    );
+
+
+    await setDoc(
+      doc(db, "users", user.uid),
+      {
+        displayName: name,
+        email: user.email,
+        updatedAt: serverTimestamp()
+      },
+      {
+        merge: true
+      }
+    );
+
+
+    return {
+      success: true
+    };
+
+  } catch (error) {
+
+    return {
+      success: false,
+      message: getAuthError(error)
+    };
+
+  }
+
+}
+
+
+/* ==================================================
+   PASSWORD RESET
+================================================== */
+
+export async function resetPassword(
+  email
+) {
+
+  try {
+
+    await sendPasswordResetEmail(
+      auth,
+      email
+    );
+
+    return {
+      success: true
+    };
+
+  } catch (error) {
+
+    return {
+      success: false,
+      message: getAuthError(error)
+    };
+
+  }
+
+}
+
+
+/* ==================================================
+   FIREBASE ERROR TRANSLATOR
+================================================== */
+
+function getAuthError(error) {
+
+  const code =
+    error?.code || "";
+
+  switch (code) {
+
+    case "auth/email-already-in-use":
+      return "This email is already registered.";
+
+    case "auth/invalid-email":
+      return "Please enter a valid email.";
+
+    case "auth/weak-password":
+      return "Password is too weak. Use at least 6 characters.";
+
+    case "auth/invalid-credential":
+      return "Invalid email or password.";
+
+    case "auth/user-not-found":
+      return "No account found with this email.";
+
+    case "auth/wrong-password":
+      return "Incorrect password.";
+
+    case "auth/too-many-requests":
+      return "Too many attempts. Try again later.";
+
+    case "auth/network-request-failed":
+      return "Network error. Check your internet connection.";
+
+    default:
+      return error?.message ||
+        "Something went wrong.";
+  }
+
+}
