@@ -11,6 +11,7 @@ import {
 
 import {
   doc,
+  getDoc,
   setDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
@@ -50,6 +51,57 @@ async function ensurePersistence() {
 
 }
 
+
+/* =========================================================
+   USER PROFILE HELPERS
+========================================================= */
+
+async function ensureUserProfile(user) {
+
+  if (!user) return null;
+
+  const userRef = doc(db, "users", user.uid);
+  const snapshot = await getDoc(userRef);
+
+  if (!snapshot.exists()) {
+    const profile = {
+      uid: user.uid,
+      displayName: user.displayName || "PG User",
+      email: user.email || "",
+      role: "user",
+      photoUrl: user.photoURL || "",
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+      isActive: true
+    };
+
+    await setDoc(userRef, profile);
+    return { id: user.uid, ...profile };
+  }
+
+  return { id: snapshot.id, ...snapshot.data() };
+}
+
+async function getUserProfile() {
+  const user = auth.currentUser;
+  if (!user) return null;
+
+  try {
+    return await ensureUserProfile(user);
+  } catch (error) {
+    console.error("Get user profile error:", error);
+    return null;
+  }
+}
+
+async function isAdmin() {
+  const profile = await getUserProfile();
+  return profile?.role === "admin" && profile?.isActive !== false;
+}
+
+async function updateUserName(displayName) {
+  return updateUserProfile(displayName);
+}
 
 /* =========================================================
    SIGN UP
@@ -296,6 +348,13 @@ async function loginUser(
         password
       );
 
+    // Repair/create the Firestore profile if an older account
+    // exists without a /users/{uid} document.
+    try {
+      await ensureUserProfile(userCredential.user);
+    } catch (profileError) {
+      console.warn("Firestore profile repair skipped:", profileError);
+    }
 
     return {
 
@@ -629,6 +688,14 @@ export {
 
   resetPassword,
 
-  updateUserProfile
+  updateUserProfile,
+
+  updateUserName,
+
+  getUserProfile,
+
+  isAdmin,
+
+  ensureUserProfile
 
 };
