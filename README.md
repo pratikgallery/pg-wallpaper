@@ -1,40 +1,31 @@
 # PG Wallpaper
 
-Premium red/black glassmorphism wallpaper website with Firebase Authentication, Firestore favorites/catalog, Firebase Storage uploads, admin controls, and PWA support.
+Premium red/black glassmorphism wallpaper website with Firebase Authentication, Firestore catalog/favorites, dynamic categories, live site settings and PWA support.
 
-## Final corrected build
+## Media architecture
 
-This build fixes:
-- Homepage auth-state function mismatch.
-- Account page imports/function mismatch.
-- Missing Firebase Storage initialization.
-- Missing admin authentication helpers.
-- Existing-user profile repair after login.
-- PWA cache version bump.
-- Admin wallpaper upload/delete flow wiring.
+This build does **not** use Firebase Cloud Storage, so the website does not require Firebase Storage/Blaze for wallpaper files.
+
+Actual wallpaper files are hosted on an external public image/CDN service. Firestore stores only the public `imageUrl` and optional `thumbnailUrl`.
+
+The Admin Studio accepts a public original-image URL. The exact original URL is used for the Download button, so the site does not resize or recompress the downloaded file.
+
+A true browser-to-CDN file upload (for example ImageKit) requires a secure server-side upload-auth endpoint; never put a CDN private key in GitHub or client JavaScript.
 
 ## Firebase setup
 
-1. In Firebase Console, open project `pg-wallpaper`.
-2. Enable **Authentication → Sign-in method → Email/Password**.
-3. Create/enable **Firestore Database**.
-4. Create/enable **Storage**.
-5. Publish the contents of `firestore.rules` in Firestore Rules.
-6. Publish the contents of `storage.rules` in Storage Rules.
+1. Enable Authentication → Email/Password.
+2. Enable Firestore Database.
+3. Publish `firestore.rules` in Firebase Console → Firestore Database → Rules.
+4. Do **not** enable Firebase Storage for this build.
 
-Uploading these rule files to GitHub does **not** publish them to Firebase; they must be deployed/published in Firebase Console (or with Firebase CLI).
+## Admin
 
-## Make an account an admin
-
-After creating your account, open Firestore:
+Create/login to your account, then in Firestore open:
 
 `users/{YOUR_FIREBASE_AUTH_UID}`
 
-Change:
-
-`role: "user"`
-
-to:
+Set:
 
 `role: "admin"`
 
@@ -42,20 +33,43 @@ Keep:
 
 `isActive: true`
 
-Do not add admin controls to the client-side code to bypass this check. Admin authorization is enforced by Firestore/Storage rules.
+Admin Studio is protected by both client-side checks and Firestore rules.
+
+## Live content
+
+The public website listens to Firestore in real time. Changes made in Admin Studio to wallpapers, categories or `settings/site` appear on the live site without rebuilding GitHub Pages.
+
+Settings include:
+- site name
+- site description
+- Instagram
+- YouTube
+- Telegram
+- Facebook
+- X
+
+Social URLs are rendered as clickable links.
+
+## Wallpaper fields
+
+- `imageUrl` — original/public wallpaper URL
+- `thumbnailUrl` — optional optimized preview URL
+- `title`
+- `category`
+- `tags`
+- `device`
+- `description`
+- `featured`
+- `isPublished`
 
 ## GitHub Pages
 
-Upload the contents of this ZIP to the repository root. Keep the `js` directory intact.
+Upload the project files to the repository root and keep the `js` folder intact.
 
-Then use:
+Repository → Settings → Pages → Deploy from branch → `main` → `/ (root)`.
 
-**Repository → Settings → Pages → Deploy from branch → main → / (root)**
+## Security
 
-The site will be served from the GitHub Pages project URL.
+The Firebase web API key is a client-side configuration value. Authorization is enforced by Firebase Authentication and Firestore Rules.
 
-## Important
-
-The Firebase web API key in `js/firebase-config.js` is a client-side Firebase configuration value. Security comes from Firebase Authentication and the Firestore/Storage rules, not from hiding this value.
-
-Do not put Firebase service-account private keys, private API credentials, or GitHub tokens in this repository.
+Never commit private API keys, service-account credentials, CDN private keys, GitHub tokens or other secrets.
