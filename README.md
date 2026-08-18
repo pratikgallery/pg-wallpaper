@@ -73,3 +73,12 @@ Repository → Settings → Pages → Deploy from branch → `main` → `/ (root
 The Firebase web API key is a client-side configuration value. Authorization is enforced by Firebase Authentication and Firestore Rules.
 
 Never commit private API keys, service-account credentials, CDN private keys, GitHub tokens or other secrets.
+
+
+## Important: public wallpapers and live updates
+
+- Firestore `wallpapers`, `categories`, and `settings/site` are read publicly by the website.
+- A wallpaper must contain a **public HTTPS image URL** in `imageUrl`. An empty `imageUrl` cannot display an image.
+- The Admin panel saves metadata to Firestore; this project does not upload image binaries to Firebase Storage.
+- Categories are matched by category name, slug, or category ID so existing documents remain compatible.
+- After replacing files on GitHub Pages, wait for the deployment to finish and hard-refresh the site once so the updated service worker is installed.
