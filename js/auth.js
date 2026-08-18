@@ -520,6 +520,19 @@ async function logoutUser() {
    AUTH STATE
 ========================================================= */
 
+async function waitForAuthReady() {
+
+  if (auth.currentUser) return auth.currentUser;
+
+  return new Promise(resolve => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      unsubscribe();
+      resolve(user);
+    });
+  });
+
+}
+
 function watchAuthState(
   callback
 ) {
@@ -685,6 +698,8 @@ export {
   logoutUser,
 
   watchAuthState,
+
+  waitForAuthReady,
 
   resetPassword,
 

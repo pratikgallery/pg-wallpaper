@@ -3,14 +3,31 @@ import {
   serverTimestamp, query, orderBy, getDoc
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 import { db } from "./firebase-config.js";
-import { isAdmin } from "./auth.js";
+import { isAdmin, waitForAuthReady } from "./auth.js";
 
 export async function requireAdmin() {
-  if (!(await isAdmin())) {
-    location.href = "index.html";
+  try {
+    // Firebase Auth restores the persisted session asynchronously.
+    // Waiting here prevents a valid admin from being redirected to home
+    // simply because auth.currentUser was still null during page startup.
+    const user = await waitForAuthReady();
+
+    if (!user) {
+      location.href = "./login.html?next=admin";
+      return false;
+    }
+
+    if (!(await isAdmin())) {
+      location.href = "./index.html";
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Admin authorization error:", error);
+    location.href = "./index.html";
     return false;
   }
-  return true;
 }
 
 function clean(value) {
